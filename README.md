@@ -26,7 +26,7 @@
 
 ## Attention!
 - Always make nandroid backup before install or updating version, these are just experiments!
-- Don't report anything without sending those patched files and full logcats!
+- Don't report anything without sending full logcats!
 - Special thanks to you for helps, tests, and supports.
 
 ## Telegram
