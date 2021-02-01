@@ -11,8 +11,9 @@
 
 ## Tested
 - Android 10 arm64 CrDroid ROM
-  Bugs: - Back camera slow motion
-        - Memory card storage (maybe need ExSDCard Access Enabler Module, not tested yet)
+  Bugs:
+  - Back camera slow motion
+  - Memory card storage (maybe need ExSDCard Access Enabler Module, not tested yet)
 
 ## Installation Guide
 - Install the module via Magisk Manager only
