@@ -20,8 +20,10 @@
 ## Installation Guide
 - Install the module via Magisk Manager only
 - Reboot
+- If app force close, reinstall it without remove and reboot
 
 ## Troubleshootings
+- If app force close, reinstall it without remove and reboot
 - Delete /data/adb/modules/MotoCam folder via recovery if you facing bootloop and send copied and zipped /data/system/dropbox files for fix.
 - Open issues with sending full logcats if this module is not working for your device.
 
