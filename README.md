@@ -5,7 +5,7 @@
 
 ## Requirements
 - Android 6 until 11
-- OpenGlES 2.0 and up
+- OpenGLES 2.0 and up
 - Camera hardware support
 - Magisk installed
 
