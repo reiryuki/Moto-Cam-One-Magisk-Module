@@ -20,23 +20,21 @@
 ## Installation Guide
 - Install the module via Magisk Manager only
 - Reboot
-- If app force close, reinstall it without remove and reboot
+- If app force close, reinstall /sdcard/MotoCamOne.apk manually
 
 ## Troubleshootings
-- If app force close, reinstall it without remove and reboot
+- If app force close, reinstall /sdcard/MotoCamOne.apk manually.
 - Delete /data/adb/modules/MotoCam folder via recovery if you facing bootloop and send copied and zipped /data/system/dropbox files for fix.
-- Open issues with sending full logcats if this module is not working for your device.
 
 ## Attention!
 - Don't report anything without sending full logcats!
-- Special thanks to you for helps, tests, and supports.
 
 ## Telegram
 - https://t.me/androidryukimods
 
-## Donate
+## Thanks for Donations
 - https://www.paypal.me/reiryuki
 
 ## Download
-- Tap "Releases"
+- Moved link here: https://www.pling.com/p/1532353/
 
