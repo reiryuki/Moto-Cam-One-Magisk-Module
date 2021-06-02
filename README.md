@@ -15,7 +15,7 @@
  
   Bugs:
   - Back camera slow motion
-  - Memory card storage (maybe need ExSDCard Access Enabler Module, not tested yet)
+  - Memory card storage
 
 ## Installation Guide
 - Install the module via Magisk Manager only
@@ -28,7 +28,6 @@
 - Open issues with sending full logcats if this module is not working for your device.
 
 ## Attention!
-- Always make nandroid backup before install or updating version, these are just experiments!
 - Don't report anything without sending full logcats!
 - Special thanks to you for helps, tests, and supports.
 
