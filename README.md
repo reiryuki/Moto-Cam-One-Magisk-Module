@@ -4,7 +4,7 @@
 - A stock camera HAL 1 app from Motorola
 
 ## Requirements
-- Android 6 until 11
+- Android 6 until 10
 - arm or arm64 architecture
 - OpenGLES 2.0 and up
 - Camera hardware support
