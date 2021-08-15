@@ -26,13 +26,16 @@
 - If app force close, reinstall /sdcard/MotoCamOne.apk manually.
 - Delete /data/adb/modules/MotoCam folder via recovery if you facing bootloop and send copied and zipped /data/system/dropbox files for fix.
 
-## Attention!
-- Don't report anything without sending full logcats!
+## Bug Report
+- https://t.me/androidryukimodsdiscussions/2618
+  If you don't do above, it will be closed immediately
 
-## Telegram
-- https://t.me/androidryukimods
+## Credits and Contributors
+- Android Ryuki Mods Discussions Team
+- https://t.me/androidryukimodsdiscussions/25188
 
 ## Thanks for Donations
+- https://t.me/androidryukimodsdiscussions/2619
 - https://www.paypal.me/reiryuki
 
 ## Download
