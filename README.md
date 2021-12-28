@@ -20,7 +20,6 @@
 ## Installation Guide
 - Install the module via Magisk Manager only
 - Reboot
-- If app force close, reinstall /sdcard/MotoCamOne.apk manually
 
 ## Troubleshootings
 - If app force close, reinstall /sdcard/MotoCamOne.apk manually.
