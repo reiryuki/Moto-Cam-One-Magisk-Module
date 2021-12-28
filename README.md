@@ -12,6 +12,7 @@
 
 ## Tested
 - Android 10 arm64 CrDroid ROM
+- Android 11 arm64 DotOS ROM
  
   Bugs:
   - Back camera slow motion
@@ -22,7 +23,6 @@
 - Reboot
 
 ## Troubleshootings
-- Delete /data/adb/modules/MotoCam folder via recovery if you facing bootloop and send copied and zipped /data/system/dropbox files for fix.
 
 ## Bug Report
 - https://t.me/androidryukimodsdiscussions/2618
