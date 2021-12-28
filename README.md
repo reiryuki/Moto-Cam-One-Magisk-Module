@@ -22,7 +22,6 @@
 - Reboot
 
 ## Troubleshootings
-- If app force close, reinstall /sdcard/MotoCamOne.apk manually.
 - Delete /data/adb/modules/MotoCam folder via recovery if you facing bootloop and send copied and zipped /data/system/dropbox files for fix.
 
 ## Bug Report
