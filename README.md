@@ -12,13 +12,13 @@
 ## Tested
 - Android 10 CrDroid ROM
 - Android 11 DotOS ROM
-  Bug:
-  - Back camera slow motion
-  - Memory card storage
+  - Bug:
+    - Back camera slow motion
+    - Memory card storage
 - Android 12 AncientOS ROM
-  Bug:
-  - Slow motion is gone
-  - Memory card storage
+  - Bug:
+    - Slow motion is gone
+    - Memory card storage
  
 
 
