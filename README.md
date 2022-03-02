@@ -12,6 +12,7 @@
 ## Tested
 - Android 10 CrDroid ROM
 - Android 11 DotOS ROM
+- Android 12 AncientOS ROM
  
 ## Bugs:
 - Back camera slow motion
