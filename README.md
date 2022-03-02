@@ -18,6 +18,7 @@
 - Android 12 AncientOS ROM
   Bug:
   - Slow motion is gone
+  - Memory card storage
  
 
 
