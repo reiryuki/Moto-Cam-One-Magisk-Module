@@ -11,6 +11,9 @@
 
 ## Tested
 - Android 10 CrDroid ROM
+  - Bug:
+    - Back camera slow motion
+    - Memory card storage
 - Android 11 DotOS ROM
   - Bug:
     - Back camera slow motion
@@ -20,11 +23,14 @@
     - Slow motion is gone
     - Memory card storage
  
-
-
 ## Installation Guide
 - Install the module via Magisk Manager only
 - Reboot
+
+## Optionals & Troubleshootings
+- https://t.me/androidryukimodsdiscussions/60861
+- https://t.me/androidryukimodsdiscussions/29836
+- https://t.me/androidryukimodsdiscussions/46628
 
 ## Bug Report
 - https://t.me/androidryukimodsdiscussions/2618
