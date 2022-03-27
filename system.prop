@@ -1,0 +1,11 @@
+ro.control_privapp_permissions=log
+#cpersist.camera.HAL3.enabled=1
+#cpersist.camera.ois.disable=0
+#cpersist.camera.eis.enable=1
+#cpersist.camera.ois.video=1
+#cpersist.vendor.camera.HAL3.enabled=1
+#cpersist.vendor.camera.ois.disable=0
+#cpersist.vendor.camera.eis.enable=1
+#cpersist.vendor.camera.ois.video=1
+
+
