@@ -1,6 +1,3 @@
-(
-
-mount /data
 mount -o rw,remount /data
 MODPATH=${0%/*}
 
@@ -23,7 +20,5 @@ if [ -f $FILE ]; then
   sh $FILE
   rm -f $FILE
 fi
-
-) 2>/dev/null
 
 

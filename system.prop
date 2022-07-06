@@ -1,4 +1,7 @@
+# prevent bootloop
 ro.control_privapp_permissions=log
+
+# property
 #cpersist.camera.HAL3.enabled=1
 #cpersist.camera.ois.disable=0
 #cpersist.camera.eis.enable=1
