@@ -1,30 +1,36 @@
 # Moto Cam One Magisk Module
 
+## DISCLAIMER
+- Moto apps are owned by Motorola™.
+- The MIT license specified here is for the Magisk Module, not for Moto apps.
+
 ## Descriptions
-- A stock camera HAL 1 app from Motorola
+- A stock camera HAL 1 app from Motorola ported and integrated as a Magisk Module for all supported and rooted devices with Magisk
+
+## Sources
+- https://play.google.com/store/apps/details?id=com.motorola.cameraone
+
+## Screenshots
+- https://t.me/androidryukimods/22
 
 ## Requirements
 - Android 6 and up
-- arm or arm64 architecture
 - OpenGLES 2.0 and up
 - Magisk installed
 
-## Tested
+## Tested on
 - Android 10 CrDroid ROM
-  - Bug:
-    - Back camera slow motion
-    - Memory card storage
 - Android 11 DotOS ROM
-  - Bug:
-    - Back camera slow motion
-    - Memory card storage
 - Android 12 AncientOS ROM
-  - Bug:
-    - Slow motion is gone
-    - Memory card storage
+- Android 13 AOSP ROM
+
+## Known Issues
+- Back camera slow motion
+- Slow motion disappreared
+- Memory card storage
  
-## Installation Guide
-- Install the module via Magisk Manager only
+## Installation Guide & Download Link
+- Install this module https://www.pling.com/p/1532353/ via Magisk app only
 - Reboot
 
 ## Optionals & Troubleshootings
@@ -32,19 +38,18 @@
 - https://t.me/androidryukimodsdiscussions/29836
 - https://t.me/androidryukimodsdiscussions/46628
 
-## Bug Report
+## Support & Bug Report
 - https://t.me/androidryukimodsdiscussions/2618
 - If you don't do above, issues will be closed immediately
 
-## Credits and Contributors
+## Credits and contributors
 - https://t.me/androidryukimodsdiscussions
-- https://t.me/androidappsportdevelopment
+- You can contribute ideas about this Magisk Module here: https://t.me/androidappsportdevelopment
 
 ## Thanks for Donations
-- https://t.me/androidryukimodsdiscussions/2619
-- https://www.paypal.me/reiryuki
+- This Magisk Module is always will be free but you can however show us that you are care by making a donations:
 - https://ko-fi.com/reiryuki
+- https://www.paypal.me/reiryuki
+- https://t.me/androidryukimodsdiscussions/2619
 
-## Download
-- https://www.pling.com/p/1532353/
 

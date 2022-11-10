@@ -11,6 +11,8 @@ magiskpolicy --live "dontaudit mm-qcamerad camera_prop file { read open getattr 
 magiskpolicy --live "allow     mm-qcamerad camera_prop file { read open getattr }"
 magiskpolicy --live "dontaudit hal_camera_default { bootanim_system_prop default_prop } file getattr"
 magiskpolicy --live "allow     hal_camera_default { bootanim_system_prop default_prop } file getattr"
+magiskpolicy --live "dontaudit mm-qcamerad vendor_camera_data_file file create"
+magiskpolicy --live "allow     mm-qcamerad vendor_camera_data_file file create"
 
 # sock_file
 magiskpolicy --live "dontaudit { cameraserver mm-qcamerad } property_socket sock_file write"
