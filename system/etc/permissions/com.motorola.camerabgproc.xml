@@ -3,4 +3,3 @@
     <library name="com.motorola.camerabgproc"
         file="/system/framework/com.motorola.camerabgproc.jar"/>
 </permissions>
-
