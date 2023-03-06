@@ -17,12 +17,14 @@
 - Android 6 and up
 - OpenGLES 2.0 and up
 - Magisk installed
+- Moto Core Magisk Module installed https://github.com/reiryuki/Moto-Core-Magisk-Module
 
 ## Tested on
 - Android 10 CrDroid ROM
 - Android 11 DotOS ROM
 - Android 12 AncientOS ROM
 - Android 13 AOSP ROM
+- Android 13 CrDroid ROM
 
 ## Known Issues
 - Back camera slow motion
@@ -30,6 +32,7 @@
 - Memory card storage
  
 ## Installation Guide & Download Link
+- Install Moto Core Magisk Module first: https://github.com/reiryuki/Moto-Core-Magisk-Module
 - Install this module https://www.pling.com/p/1532353/ via Magisk app only
 - Reboot
 

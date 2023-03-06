@@ -1,12 +1,10 @@
 # boot mode
 if [ "$BOOTMODE" != true ]; then
-  abort "- Please flash via Magisk Manager only!"
+  abort "- Please flash via Magisk app only!"
 fi
 
 # space
-if [ "$BOOTMODE" == true ]; then
-  ui_print " "
-fi
+ui_print " "
 
 # magisk
 if [ -d /sbin/.magisk ]; then
@@ -24,12 +22,23 @@ fi
 SYSTEM=`realpath $MIRROR/system`
 PRODUCT=`realpath $MIRROR/product`
 VENDOR=`realpath $MIRROR/vendor`
-SYSTEM_EXT=`realpath $MIRROR/system/system_ext`
-ODM=`realpath /odm`
-MY_PRODUCT=`realpath /my_product`
+SYSTEM_EXT=`realpath $MIRROR/system_ext`
+if [ -d $MIRROR/odm ]; then
+  ODM=`realpath $MIRROR/odm`
+else
+  ODM=`realpath /odm`
+fi
+if [ -d $MIRROR/my_product ]; then
+  MY_PRODUCT=`realpath $MIRROR/my_product`
+else
+  MY_PRODUCT=`realpath /my_product`
+fi
 
 # optionals
 OPTIONALS=/sdcard/optionals.prop
+if [ ! -f $OPTIONALS ]; then
+  touch $OPTIONALS
+fi
 
 # info
 MODVER=`grep_prop version $MODPATH/module.prop`
@@ -71,22 +80,32 @@ if [ "$BOOTMODE" != true ]; then
   mount -o rw -t auto /dev/block/bootdevice/by-name/metadata /metadata
 fi
 
-# sepolicy.rule
-FILE=$MODPATH/sepolicy.sh
-DES=$MODPATH/sepolicy.rule
-if [ -f $FILE ] && [ "`grep_prop sepolicy.sh $OPTIONALS`" != 1 ]; then
+# sepolicy
+FILE=$MODPATH/sepolicy.rule
+DES=$MODPATH/sepolicy.pfsd
+if [ "`grep_prop sepolicy.sh $OPTIONALS`" == 1 ]\
+&& [ -f $FILE ]; then
   mv -f $FILE $DES
-  sed -i 's/magiskpolicy --live "//g' $DES
-  sed -i 's/"//g' $DES
+fi
+
+# motocore
+if [ ! -d /data/adb/modules_update/MotoCore ]\
+&& [ ! -d /data/adb/modules/MotoCore ]; then
+  ui_print "- This module requires Moto Core Magisk Module installed"
+  ui_print "  except you are in Motorola ROM."
+  ui_print "  Please read the installation guide!"
+  ui_print " "
+else
+  rm -f /data/adb/modules/MotoCore/remove
+  rm -f /data/adb/modules/MotoCore/disable
 fi
 
 # cleaning
 ui_print "- Cleaning..."
-PKG="com.motorola.motosignature.app
-     com.motorola.cameraone"
+PKG=`cat $MODPATH/package.txt`
 if [ "$BOOTMODE" == true ]; then
   for PKGS in $PKG; do
-    RES=`pm uninstall $PKGS`
+    RES=`pm uninstall $PKGS 2>/dev/null`
   done
 fi
 rm -rf /metadata/magisk/$MODID
@@ -137,7 +156,30 @@ elif [ "`grep_prop permissive.mode $OPTIONALS`" == 2 ]; then
   ui_print " "
 fi
 
+# /priv-app
+if [ ! -d $SYSTEM/priv-app ]; then
+  ui_print "- /system/priv-app is not supported"
+  ui_print "  Moving to /system/app..."
+  mv -f $MODPATH/system/priv-app $MODPATH/system/app
+  ui_print " "
+fi
+
 # function
+extract_lib() {
+for APPS in $APP; do
+  FILE=`find $MODPATH/system -type f -name $APPS.apk`
+  if [ -f `dirname $FILE`/extract ]; then
+    rm -f `dirname $FILE`/extract
+    ui_print "- Extracting..."
+    DIR=`dirname $FILE`/lib/$ARCH
+    mkdir -p $DIR
+    rm -rf $TMPDIR/*
+    unzip -d $TMPDIR -o $FILE $DES
+    cp -f $TMPDIR/$DES $DIR
+    ui_print " "
+  fi
+done
+}
 hide_oat() {
 for APPS in $APP; do
   mkdir -p `find $MODPATH/system -type d -name $APPS`/oat
@@ -145,27 +187,12 @@ for APPS in $APP; do
 done
 }
 
-# hide
-APP="`ls $MODPATH/system/priv-app` `ls $MODPATH/system/app`"
-hide_oat
-
-# function
-extract_lib() {
-for APPS in $APP; do
-  ui_print "- Extracting..."
-  FILE=`find $MODPATH/system -type f -name $APPS.apk`
-  DIR=`find $MODPATH/system -type d -name $APPS`/lib/$ARCH
-  mkdir -p $DIR
-  rm -rf $TMPDIR/*
-  unzip -d $TMPDIR -o $FILE $DES
-  cp -f $TMPDIR/$DES $DIR
-  ui_print " "
-done
-}
-
 # extract
+APP="`ls $MODPATH/system/priv-app` `ls $MODPATH/system/app`"
 DES=lib/`getprop ro.product.cpu.abi`/*
 extract_lib
+# hide
+hide_oat
 
 # property
 if [ "`grep_prop camera.prop $OPTIONALS`" == 1 ]; then
@@ -179,39 +206,11 @@ check_feature() {
 if ! pm list features | grep -Eq $NAME; then
   ui_print "- Play Store data will be cleared automatically on"
   ui_print "  next reboot for app updates"
-  echo 'rm -rf /data/user/*/com.android.vending/*' >> $MODPATH/cleaner.sh
+  echo 'rm -rf /data/user*/*/com.android.vending/*' >> $MODPATH/cleaner.sh
   ui_print " "
 fi
 }
-grant_permission() {
-  if [ "$BOOTMODE" == true ]\
-  && ! dumpsys package $PKG | grep -Eq "$NAME: granted=true"; then
-    FILE=`find $MODPATH/system -type f -name $APP.apk`
-    ui_print "- Granting all runtime permissions for $PKG..."
-    RES=`pm install -g -i com.android.vending $FILE`
-    pm grant $PKG $NAME
-    if ! dumpsys package $PKG | grep -Eq "$NAME: granted=true"; then
-      ui_print "  ! Failed."
-      ui_print "  Maybe insufficient storage."
-    fi
-    RES=`pm uninstall -k $PKG`
-    ui_print " "
-  fi
-}
 
-# grant
-APP=MotoCamOne
-PKG=com.motorola.cameraone
-NAME=android.permission.WRITE_EXTERNAL_STORAGE
-grant_permission
 
-# /priv-app
-if [ ! -d $SYSTEM/priv-app ]; then
-  ui_print "- /system/priv-app is not supported"
-  ui_print "  Moving to /system/app..."
-  rm -rf $MODPATH/system/app
-  mv -f $MODPATH/system/priv-app $MODPATH/system/app
-  ui_print " "
-fi
 
 
