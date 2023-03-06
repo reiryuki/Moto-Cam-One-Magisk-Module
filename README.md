@@ -27,9 +27,8 @@
 - Android 13 CrDroid ROM
 
 ## Known Issues
-- Back camera slow motion
-- Slow motion disappreared
-- Memory card storage
+- Back camera slow motion doesn't work
+- External memory card storage doesn't work
  
 ## Installation Guide & Download Link
 - Install Moto Core Magisk Module first: https://github.com/reiryuki/Moto-Core-Magisk-Module
