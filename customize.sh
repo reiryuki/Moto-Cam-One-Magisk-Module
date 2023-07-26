@@ -6,39 +6,16 @@ fi
 # space
 ui_print " "
 
-# magisk
-if [ -d /sbin/.magisk ]; then
-  MAGISKTMP=/sbin/.magisk
-else
-  MAGISKTMP=`realpath /dev/*/.magisk`
+# log
+if [ "$BOOTMODE" != true ]; then
+  FILE=/sdcard/$MODID\_recovery.log
+  ui_print "- Log will be saved at $FILE"
+  exec 2>$FILE
+  ui_print " "
 fi
 
-# path
-if [ "$BOOTMODE" == true ]; then
-  MIRROR=$MAGISKTMP/mirror
-else
-  MIRROR=
-fi
-SYSTEM=`realpath $MIRROR/system`
-PRODUCT=`realpath $MIRROR/product`
-VENDOR=`realpath $MIRROR/vendor`
-SYSTEM_EXT=`realpath $MIRROR/system_ext`
-if [ -d $MIRROR/odm ]; then
-  ODM=`realpath $MIRROR/odm`
-else
-  ODM=`realpath /odm`
-fi
-if [ -d $MIRROR/my_product ]; then
-  MY_PRODUCT=`realpath $MIRROR/my_product`
-else
-  MY_PRODUCT=`realpath /my_product`
-fi
-
-# optionals
-OPTIONALS=/sdcard/optionals.prop
-if [ ! -f $OPTIONALS ]; then
-  touch $OPTIONALS
-fi
+# run
+. $MODPATH/function.sh
 
 # info
 MODVER=`grep_prop version $MODPATH/module.prop`
@@ -46,8 +23,15 @@ MODVERCODE=`grep_prop versionCode $MODPATH/module.prop`
 ui_print " ID=$MODID"
 ui_print " Version=$MODVER"
 ui_print " VersionCode=$MODVERCODE"
-ui_print " MagiskVersion=$MAGISK_VER"
-ui_print " MagiskVersionCode=$MAGISK_VER_CODE"
+if [ "$KSU" == true ]; then
+  ui_print " KSUVersion=$KSU_VER"
+  ui_print " KSUVersionCode=$KSU_VER_CODE"
+  ui_print " KSUKernelVersionCode=$KSU_KERNEL_VER_CODE"
+  sed -i 's|#k||g' $MODPATH/post-fs-data.sh
+else
+  ui_print " MagiskVersion=$MAGISK_VER"
+  ui_print " MagiskVersionCode=$MAGISK_VER_CODE"
+fi
 ui_print " "
 
 # sdk
@@ -72,22 +56,6 @@ else
   ui_print " "
 fi
 
-# mount
-if [ "$BOOTMODE" != true ]; then
-  mount -o rw -t auto /dev/block/bootdevice/by-name/cust /vendor
-  mount -o rw -t auto /dev/block/bootdevice/by-name/vendor /vendor
-  mount -o rw -t auto /dev/block/bootdevice/by-name/persist /persist
-  mount -o rw -t auto /dev/block/bootdevice/by-name/metadata /metadata
-fi
-
-# sepolicy
-FILE=$MODPATH/sepolicy.rule
-DES=$MODPATH/sepolicy.pfsd
-if [ "`grep_prop sepolicy.sh $OPTIONALS`" == 1 ]\
-&& [ -f $FILE ]; then
-  mv -f $FILE $DES
-fi
-
 # motocore
 if [ ! -d /data/adb/modules_update/MotoCore ]\
 && [ ! -d /data/adb/modules/MotoCore ]; then
@@ -100,46 +68,55 @@ else
   rm -f /data/adb/modules/MotoCore/disable
 fi
 
+# optionals
+OPTIONALS=/sdcard/optionals.prop
+if [ ! -f $OPTIONALS ]; then
+  touch $OPTIONALS
+fi
+
+# sepolicy
+FILE=$MODPATH/sepolicy.rule
+DES=$MODPATH/sepolicy.pfsd
+if [ "`grep_prop sepolicy.sh $OPTIONALS`" == 1 ]\
+&& [ -f $FILE ]; then
+  mv -f $FILE $DES
+fi
+
 # cleaning
 ui_print "- Cleaning..."
-PKG=`cat $MODPATH/package.txt`
+PKGS=`cat $MODPATH/package.txt`
 if [ "$BOOTMODE" == true ]; then
-  for PKGS in $PKG; do
-    RES=`pm uninstall $PKGS 2>/dev/null`
+  for PKG in $PKGS; do
+    RES=`pm uninstall $PKG 2>/dev/null`
   done
 fi
-rm -rf /metadata/magisk/$MODID
-rm -rf /mnt/vendor/persist/magisk/$MODID
-rm -rf /persist/magisk/$MODID
-rm -rf /data/unencrypted/magisk/$MODID
-rm -rf /cache/magisk/$MODID
+remove_sepolicy_rule
 ui_print " "
 
 # function
 permissive_2() {
-sed -i '1i\
-SELINUX=`getenforce`\
-if [ "$SELINUX" == Enforcing ]; then\
-  magiskpolicy --live "permissive *"\
-fi\' $MODPATH/post-fs-data.sh
+sed -i 's|#2||g' $MODPATH/post-fs-data.sh
 }
 permissive() {
-SELINUX=`getenforce`
-if [ "$SELINUX" == Enforcing ]; then
-  setenforce 0
-  SELINUX=`getenforce`
-  if [ "$SELINUX" == Enforcing ]; then
+FILE=/sys/fs/selinux/enforce
+SELINUX=`cat $FILE`
+if [ "$SELINUX" == 1 ]; then
+  if ! setenforce 0; then
+    echo 0 > $FILE
+  fi
+  SELINUX=`cat $FILE`
+  if [ "$SELINUX" == 1 ]; then
     ui_print "  Your device can't be turned to Permissive state."
     ui_print "  Using Magisk Permissive mode instead."
     permissive_2
   else
-    setenforce 1
-    sed -i '1i\
-SELINUX=`getenforce`\
-if [ "$SELINUX" == Enforcing ]; then\
-  setenforce 0\
-fi\' $MODPATH/post-fs-data.sh
+    if ! setenforce 1; then
+      echo 1 > $FILE
+    fi
+    sed -i 's|#1||g' $MODPATH/post-fs-data.sh
   fi
+else
+  sed -i 's|#1||g' $MODPATH/post-fs-data.sh
 fi
 }
 
@@ -156,24 +133,17 @@ elif [ "`grep_prop permissive.mode $OPTIONALS`" == 2 ]; then
   ui_print " "
 fi
 
-# /priv-app
-if [ ! -d $SYSTEM/priv-app ]; then
-  ui_print "- /system/priv-app is not supported"
-  ui_print "  Moving to /system/app..."
-  mv -f $MODPATH/system/priv-app $MODPATH/system/app
-  ui_print " "
-fi
-
 # function
 extract_lib() {
-for APPS in $APP; do
-  FILE=`find $MODPATH/system -type f -name $APPS.apk`
+for APP in $APPS; do
+  FILE=`find $MODPATH/system -type f -name $APP.apk`
   if [ -f `dirname $FILE`/extract ]; then
     rm -f `dirname $FILE`/extract
     ui_print "- Extracting..."
-    DIR=`dirname $FILE`/lib/$ARCH
+    DIR=`dirname $FILE`/lib/"$ARCH"
     mkdir -p $DIR
     rm -rf $TMPDIR/*
+    DES=lib/"$ABI"/*
     unzip -d $TMPDIR -o $FILE $DES
     cp -f $TMPDIR/$DES $DIR
     ui_print " "
@@ -181,15 +151,14 @@ for APPS in $APP; do
 done
 }
 hide_oat() {
-for APPS in $APP; do
-  mkdir -p `find $MODPATH/system -type d -name $APPS`/oat
-  touch `find $MODPATH/system -type d -name $APPS`/oat/.replace
+for APP in $APPS; do
+  REPLACE="$REPLACE
+  `find $MODPATH/system -type d -name $APP | sed "s|$MODPATH||g"`/oat"
 done
 }
 
 # extract
-APP="`ls $MODPATH/system/priv-app` `ls $MODPATH/system/app`"
-DES=lib/`getprop ro.product.cpu.abi`/*
+APPS="`ls $MODPATH/system/priv-app` `ls $MODPATH/system/app`"
 extract_lib
 # hide
 hide_oat
@@ -197,19 +166,30 @@ hide_oat
 # property
 if [ "`grep_prop camera.prop $OPTIONALS`" == 1 ]; then
   ui_print "- Enables camera HAL 3, EIS, and OIS..."
-  sed -i 's/#c//g' $MODPATH/system.prop
+  sed -i 's|#c||g' $MODPATH/system.prop
   ui_print " "
 fi
 
 # function
 check_feature() {
-if ! pm list features | grep -Eq $NAME; then
+NAME=com.motorola.cameraone
+if [ "$BOOTMODE" == true ]\
+&& ! pm list features | grep -q $NAME; then
   ui_print "- Play Store data will be cleared automatically on"
   ui_print "  next reboot for app updates"
   echo 'rm -rf /data/user*/*/com.android.vending/*' >> $MODPATH/cleaner.sh
   ui_print " "
 fi
 }
+
+
+
+
+
+
+
+
+
 
 
 
