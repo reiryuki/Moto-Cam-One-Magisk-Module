@@ -23,8 +23,7 @@
 - Android 10 CrDroid ROM
 - Android 11 DotOS ROM
 - Android 12 AncientOS ROM
-- Android 13 AOSP ROM
-- Android 13 CrDroid ROM
+- Android 13 AOSP ROM & CrDroid ROM
 
 ## Known Issues
 - Back camera slow motion doesn't work
