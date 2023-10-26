@@ -1,9 +1,11 @@
 MODPATH=${0%/*}
-API=`getprop ro.build.version.sdk`
 
 # log
 exec 2>$MODPATH/debug.log
 set -x
+
+# var
+API=`getprop ro.build.version.sdk`
 
 # wait
 until [ "`getprop sys.boot_completed`" == "1" ]; do
@@ -73,10 +75,9 @@ fi
 
 # grant
 PKG=com.google.android.apps.photos
-if pm list packages | grep $PKG; then
+if appops get $PKG > /dev/null 2>&1; then
   grant_permission
 fi
-
 
 
 

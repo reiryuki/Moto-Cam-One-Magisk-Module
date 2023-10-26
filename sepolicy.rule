@@ -1,45 +1,32 @@
 # debug
-dontaudit system_server system_file file write
-allow     system_server system_file file write
+allow system_server system_file file write
 
 # context
 create { system_lib_file vendor_file vendor_configs_file }
-dontaudit { system_file system_lib_file vendor_file vendor_configs_file } labeledfs filesystem associate
-allow     { system_file system_lib_file vendor_file vendor_configs_file } labeledfs filesystem associate
-dontaudit init { system_file system_lib_file vendor_file vendor_configs_file } { dir file } relabelfrom
-allow     init { system_file system_lib_file vendor_file vendor_configs_file } { dir file } relabelfrom
+allow { system_file system_lib_file vendor_file vendor_configs_file } labeledfs filesystem associate
+allow init { system_file system_lib_file vendor_file vendor_configs_file } { dir file } relabelfrom
 
 # dir
-dontaudit { system_app priv_app platform_app untrusted_app_29 untrusted_app_27 untrusted_app } blkio_dev dir search
-allow     { system_app priv_app platform_app untrusted_app_29 untrusted_app_27 untrusted_app } blkio_dev dir search
+allow { system_app priv_app platform_app untrusted_app_29 untrusted_app_27 untrusted_app } blkio_dev dir search
 
 # file
-dontaudit mm-qcamerad camera_prop file { read open getattr }
-allow     mm-qcamerad camera_prop file { read open getattr }
-dontaudit hal_camera_default { bootanim_system_prop default_prop } file getattr
-allow     hal_camera_default { bootanim_system_prop default_prop } file getattr
-dontaudit mm-qcamerad vendor_camera_data_file file { create read write open }
-allow     mm-qcamerad vendor_camera_data_file file { create read write open }
+allow mm-qcamerad camera_prop file { read open getattr }
+allow hal_camera_default { bootanim_system_prop default_prop } file getattr
+allow mm-qcamerad vendor_camera_data_file file { create read write open }
 
 # sock_file
-dontaudit { cameraserver mm-qcamerad } property_socket sock_file write
-allow     { cameraserver mm-qcamerad } property_socket sock_file write
+allow { cameraserver mm-qcamerad } property_socket sock_file write
 
 # unix_stream_socket
-dontaudit { cameraserver mm-qcamerad } init unix_stream_socket connectto
-allow     { cameraserver mm-qcamerad } init unix_stream_socket connectto
+allow { cameraserver mm-qcamerad } init unix_stream_socket connectto
 
 # property_service
-dontaudit cameraserver system_prop property_service set
-allow     cameraserver system_prop property_service set
-dontaudit mm-qcamerad camera_prop property_service set
-allow     mm-qcamerad camera_prop property_service set
+allow cameraserver system_prop property_service set
+allow mm-qcamerad camera_prop property_service set
 
 # additional for gcam
-dontaudit { system_app platform_app priv_app untrusted_app_29 untrusted_app_27 untrusted_app } app_data_file file execute
-allow     { system_app platform_app priv_app untrusted_app_29 untrusted_app_27 untrusted_app } app_data_file file execute
-dontaudit { system_app platform_app priv_app untrusted_app_29 untrusted_app_27 untrusted_app } vendor_persist_camera_prop file { read open getattr }
-allow     { system_app platform_app priv_app untrusted_app_29 untrusted_app_27 untrusted_app } vendor_persist_camera_prop file { read open getattr }
+allow { system_app platform_app priv_app untrusted_app_29 untrusted_app_27 untrusted_app } app_data_file file execute
+allow { system_app platform_app priv_app untrusted_app_29 untrusted_app_27 untrusted_app } vendor_persist_camera_prop file { read open getattr }
 
 
 

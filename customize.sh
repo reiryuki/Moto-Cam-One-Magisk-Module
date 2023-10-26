@@ -1,8 +1,3 @@
-# boot mode
-if [ "$BOOTMODE" != true ]; then
-  abort "- Please flash via Magisk app only!"
-fi
-
 # space
 ui_print " "
 
@@ -11,6 +6,19 @@ if [ "$BOOTMODE" != true ]; then
   FILE=/sdcard/$MODID\_recovery.log
   ui_print "- Log will be saved at $FILE"
   exec 2>$FILE
+  ui_print " "
+fi
+
+# optionals
+OPTIONALS=/sdcard/optionals.prop
+if [ ! -f $OPTIONALS ]; then
+  touch $OPTIONALS
+fi
+
+# debug
+if [ "`grep_prop debug.log $OPTIONALS`" == 1 ]; then
+  ui_print "- The install log will contain detailed information"
+  set -x
   ui_print " "
 fi
 
@@ -66,12 +74,6 @@ if [ ! -d /data/adb/modules_update/MotoCore ]\
 else
   rm -f /data/adb/modules/MotoCore/remove
   rm -f /data/adb/modules/MotoCore/disable
-fi
-
-# optionals
-OPTIONALS=/sdcard/optionals.prop
-if [ ! -f $OPTIONALS ]; then
-  touch $OPTIONALS
 fi
 
 # sepolicy
@@ -177,7 +179,7 @@ if [ "$BOOTMODE" == true ]\
 && ! pm list features | grep -q $NAME; then
   ui_print "- Play Store data will be cleared automatically on"
   ui_print "  next reboot for app updates"
-  echo 'rm -rf /data/user*/*/com.android.vending/*' >> $MODPATH/cleaner.sh
+  echo 'rm -rf /data/user*/"$UID"/com.android.vending/*' >> $MODPATH/cleaner.sh
   ui_print " "
 fi
 }
