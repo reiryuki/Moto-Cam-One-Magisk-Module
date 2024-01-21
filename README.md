@@ -15,7 +15,6 @@
 
 ## Requirements
 - Android 6 and up
-- OpenGLES 2.0 and up
 - Magisk or KernelSU installed
 - Moto Core Magisk Module installed https://github.com/reiryuki/Moto-Core-Magisk-Module
 
