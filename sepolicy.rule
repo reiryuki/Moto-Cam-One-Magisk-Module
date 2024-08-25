@@ -35,11 +35,3 @@ allow { system_app platform_app priv_app untrusted_app_29 untrusted_app_27 untru
 
 
 
-
-
-
-
-
-
-
-
