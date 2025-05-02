@@ -9,6 +9,7 @@
 
 ## Sources
 - https://play.google.com/store/apps/details?id=com.motorola.cameraone
+- libmagiskpolicy.so: Kitsune Mask R6687BB53
 
 ## Screenshots
 - https://t.me/androidryukimods/22
