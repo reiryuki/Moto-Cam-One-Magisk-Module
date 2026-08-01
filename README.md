@@ -82,14 +82,13 @@ https://t.me/androidryukimods/22
 ## Installation Guide & Download Link
 - If you are using KernelSU, you need to disable Unmount Modules by Default in KernelSU app settings and install https://github.com/KernelSU-Modules-Repo/meta-overlayfs or https://github.com/KernelSU-Modules-Repo/magic_mount_rs or https://github.com/KernelSU-Modules-Repo/hybrid_mount or https://github.com/maxsteeel/nomount first depending on ROM compatibility
 - Install Moto Core Magisk Module first: https://github.com/reiryuki/Moto-Core-Magisk-Module
-- Install this module https://devuploads.com/yf0zf36w94bp via Magisk app or KernelSU app or Apatch app or Kitsune Mask app or Recovery if Magisk or Kitsune Mask is installed
+- Install this module https://bicolink.com/mf9pQFO via Magisk app or KernelSU app or Apatch app or Kitsune Mask app or Recovery if Magisk or Kitsune Mask is installed
 - Reboot
 - If you are using KernelSU, you need to allow superuser list manually all package name listed in package.txt (and your home launcher app also) (enable show system apps) and reboot afterwards
 - If you are using SUList, you need to allow list manually your home launcher app (enable show system apps) and reboot afterwards
 
-## Known Issues
-- Back camera slow motion doesn't work
-- External memory card storage doesn't work
+## Download Tutorial
+https://t.me/ryukinotes/97
  
 ## Optionals
 - https://t.me/ryukinotes/82
@@ -98,6 +97,10 @@ https://t.me/androidryukimods/22
 ## Troubleshootings
 - https://t.me/ryukinotes/82
 - Global: https://t.me/ryukinotes/34
+
+## Known Issues
+- Back camera slow motion doesn't work
+- External memory card storage doesn't work
 
 ## Support & Bug Report
 - https://t.me/ryukinotes/54
